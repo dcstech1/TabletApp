@@ -1,0 +1,140 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.tabletapp"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:4:5-66
+11-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:4:22-64
+12    <!-- Include required permissions for Google Maps API to run. -->
+13    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+13-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\abc\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:23:5-79
+13-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\abc\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:23:22-76
+14
+15    <uses-feature
+15-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\abc\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:26:5-28:35
+16        android:glEsVersion="0x00020000"
+16-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\abc\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:27:9-41
+17        android:required="true" />
+17-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\abc\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:28:9-32
+18
+19    <queries>
+19-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\abc\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:30:5-34:15
+20
+21        <!-- Needs to be explicitly declared on Android R+ -->
+22        <package android:name="com.google.android.apps.maps" />
+22-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\abc\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:33:9-64
+22-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\abc\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:33:18-61
+23    </queries>
+24
+25    <application
+26        android:name="android.app.Application"
+26-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:7:9-42
+27        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+27-->[androidx.core:core:1.6.0] C:\Users\abc\.gradle\caches\transforms-3\d08c73bfb05384f2e52578171dbd141e\transformed\core-1.6.0\AndroidManifest.xml:24:18-86
+28        android:icon="@mipmap/ic_launcher"
+28-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:8:9-43
+29        android:label="tabletapp" >
+29-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:6:9-34
+30        <activity
+30-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:9:9-29:20
+31            android:name="com.example.tabletapp.MainActivity"
+31-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:10:13-41
+32            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+32-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:14:13-163
+33            android:exported="true"
+33-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:11:13-36
+34            android:hardwareAccelerated="true"
+34-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:15:13-47
+35            android:launchMode="singleTop"
+35-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:12:13-43
+36            android:theme="@style/LaunchTheme"
+36-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:13:13-47
+37            android:windowSoftInputMode="adjustResize" >
+37-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:16:13-55
+38
+39            <!--
+40                 Specifies an Android theme to apply to this Activity as soon as
+41                 the Android process has started. This theme is visible to the user
+42                 while the Flutter UI initializes. After that, this theme continues
+43                 to determine the Window background behind the Flutter UI.
+44            -->
+45            <meta-data
+45-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:21:13-24:17
+46                android:name="io.flutter.embedding.android.NormalTheme"
+46-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:22:15-70
+47                android:resource="@style/NormalTheme" />
+47-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:23:15-52
+48
+49            <intent-filter>
+49-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:25:13-28:29
+50                <action android:name="android.intent.action.MAIN" />
+50-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:26:17-68
+50-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:26:25-66
+51
+52                <category android:name="android.intent.category.LAUNCHER" />
+52-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:27:17-76
+52-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:27:27-74
+53            </intent-filter>
+54        </activity>
+55        <!--
+56             Don't delete the meta-data below.
+57             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+58        -->
+59        <meta-data
+59-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:32:9-34:33
+60            android:name="flutterEmbedding"
+60-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:33:13-44
+61            android:value="2" />
+61-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:34:13-30
+62        <meta-data
+62-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:35:9-37:70
+63            android:name="com.google.android.geo.API_KEY"
+63-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:36:13-58
+64            android:value="AIzaSyBVNKPywiKIxMm9pXEu9MI6_FYThIyUpbg" />
+64-->G:\Client\DCS Technologies\App\Flutter\TabletApp\android\app\src\main\AndroidManifest.xml:37:13-68
+65
+66        <uses-library
+66-->[androidx.window:window:1.0.0-beta04] C:\Users\abc\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+67            android:name="androidx.window.extensions"
+67-->[androidx.window:window:1.0.0-beta04] C:\Users\abc\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+68            android:required="false" />
+68-->[androidx.window:window:1.0.0-beta04] C:\Users\abc\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+69        <uses-library
+69-->[androidx.window:window:1.0.0-beta04] C:\Users\abc\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+70            android:name="androidx.window.sidecar"
+70-->[androidx.window:window:1.0.0-beta04] C:\Users\abc\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+71            android:required="false" /> <!-- Needs to be explicitly declared on P+ -->
+71-->[androidx.window:window:1.0.0-beta04] C:\Users\abc\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+72        <uses-library
+72-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\abc\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:39:9-41:40
+73            android:name="org.apache.http.legacy"
+73-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\abc\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:40:13-50
+74            android:required="false" />
+74-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\abc\.gradle\caches\transforms-3\01dbff8927e8b2aa767c55cc1914bf9e\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:41:13-37
+75
+76        <activity
+76-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\abc\.gradle\caches\transforms-3\680a2964d8a0bce7cbd43c0f88e0420c\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+77            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+77-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\abc\.gradle\caches\transforms-3\680a2964d8a0bce7cbd43c0f88e0420c\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:19-85
+78            android:exported="false"
+78-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\abc\.gradle\caches\transforms-3\680a2964d8a0bce7cbd43c0f88e0420c\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+79            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+79-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\abc\.gradle\caches\transforms-3\680a2964d8a0bce7cbd43c0f88e0420c\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+80
+81        <meta-data
+81-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\abc\.gradle\caches\transforms-3\b8c7e0501cdb50e76c669e8ca99b676d\transformed\jetified-play-services-basement-18.0.0\AndroidManifest.xml:21:9-23:69
+82            android:name="com.google.android.gms.version"
+82-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\abc\.gradle\caches\transforms-3\b8c7e0501cdb50e76c669e8ca99b676d\transformed\jetified-play-services-basement-18.0.0\AndroidManifest.xml:22:13-58
+83            android:value="@integer/google_play_services_version" />
+83-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\abc\.gradle\caches\transforms-3\b8c7e0501cdb50e76c669e8ca99b676d\transformed\jetified-play-services-basement-18.0.0\AndroidManifest.xml:23:13-66
+84    </application>
+85
+86</manifest>

@@ -1,0 +1,1 @@
+ F:\\Vora\\Flutter\\TabletApp\\.dart_tool\\flutter_build\\98b980ed5d67fe8fb42a753e4f828cbd\\native_assets.yaml: 

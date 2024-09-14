@@ -1,0 +1,1 @@
+ G:\\Client\\DCS\ Technologies\\App\\Flutter\\TabletApp\\.dart_tool\\flutter_build\\8f07f9547203bced330701cb1f71c6a6\\native_assets.yaml: 
