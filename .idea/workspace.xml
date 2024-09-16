@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddeaa7c9-e8cb-42d2-b718-8041b1db7cb6" name="Changes" comment="Initial Commit" />
+    <list default="true" id="ddeaa7c9-e8cb-42d2-b718-8041b1db7cb6" name="Changes" comment="Initial Commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/login/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/login/login.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
