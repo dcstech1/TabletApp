@@ -187,7 +187,6 @@ class _YourListViewWidgetState extends State<cart> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _checkStaffBankStatus();
     if (GlobalDala.cartPayNowDataList[Constant.orderTypeMain] == "Delivery") {
       deliveryChargeController.text =
           (GlobalDala.cartPayNowDataList[Constant.deliveryChargeMain] ?? 0.0)
@@ -470,73 +469,61 @@ if(GlobalDala.cartPayNowDataList[Constant.taxId3Main] == 3)
                             ? ElevatedButton(
                                 onPressed: () async {
 
-                                  if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-                                  {
-                                    showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
-
-                                      return;
-                                    });
-                                  }
-                                  else
-
-                                    {
-                                      if (cartDataListSubmit.isNotEmpty) {
-                                        bool confirmDelete = await showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text('Confirmation'),
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Text(
-                                                      'Are you sure to void the order?'),
-                                                  SizedBox(height: 20),
-                                                  TextField(
-                                                    controller:
-                                                    descriptionController,
-                                                    decoration: InputDecoration(
-                                                      labelText: 'Description',
-                                                      border: OutlineInputBorder(),
-                                                    ),
-                                                  ),
-                                                ],
+                                  if (cartDataListSubmit.isNotEmpty) {
+                                    bool confirmDelete = await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Confirmation'),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                  'Are you sure to void the order?'),
+                                              SizedBox(height: 20),
+                                              TextField(
+                                                controller:
+                                                descriptionController,
+                                                decoration: InputDecoration(
+                                                  labelText: 'Description',
+                                                  border: OutlineInputBorder(),
+                                                ),
                                               ),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pop(true); // Confirmed
-                                                  },
-                                                  child: Text('Yes'),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pop(false); // Cancel
-                                                  },
-                                                  child: Text('No'),
-                                                ),
-                                              ],
-                                            );
-                                          },
+                                            ],
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(true); // Confirmed
+                                              },
+                                              child: Text('Yes'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(false); // Cancel
+                                              },
+                                              child: Text('No'),
+                                            ),
+                                          ],
                                         );
-                                        if (confirmDelete == true) {
-                                          if (descriptionController.text == "") {
-                                            showSnackBarInDialog(
-                                                context, "Enter Description.!");
-                                          } else {
-
-                                            isPayClick=false;
-                                            submitTableOrder(context, "Void");
-                                          }
-                                        }
-                                      } else {
+                                      },
+                                    );
+                                    if (confirmDelete == true) {
+                                      if (descriptionController.text == "") {
                                         showSnackBarInDialog(
-                                            context, "Cart is empty.!");
+                                            context, "Enter Description.!");
+                                      } else {
+
+                                        isPayClick=false;
+                                        submitTableOrder(context, "Void");
                                       }
                                     }
-
+                                  } else {
+                                    showSnackBarInDialog(
+                                        context, "Cart is empty.!");
+                                  }
 
 
                                 },
@@ -554,28 +541,18 @@ if(GlobalDala.cartPayNowDataList[Constant.taxId3Main] == 3)
                         GlobalDala.isRecall
                             ? ElevatedButton(
                                 onPressed: () async {
-                                  if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-                                  {
-                                    showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
+                                  if (cartDataListSubmit.isNotEmpty) {
 
-                                      return;
-                                    });
-                                  }
-                                  else
+                                    if(GlobalDala.isRecall)
                                     {
-                                      if (cartDataListSubmit.isNotEmpty) {
-
-                                        if(GlobalDala.isRecall)
-                                        {
-                                          isPayClick=true;
-                                          updateStatus();
-                                        }
-
-
-                                      } else {
-                                        showSnackBarInDialog(context, "Cart is empty.!");
-                                      }
+                                      isPayClick=true;
+                                      updateStatus();
                                     }
+
+
+                                  } else {
+                                    showSnackBarInDialog(context, "Cart is empty.!");
+                                  }
 
 
                                 },
@@ -594,32 +571,21 @@ if(GlobalDala.cartPayNowDataList[Constant.taxId3Main] == 3)
                         ElevatedButton(
                           onPressed: () {
 
-                            if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-                            {
-                              showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
+                            if (cartDataListSubmit.isNotEmpty) {
 
-                                return;
-                              });
-                            }
-                            else
+                              isPayClick=false;
+                              if(GlobalDala.isRecall)
                               {
-                                if (cartDataListSubmit.isNotEmpty) {
 
-                                  isPayClick=false;
-                                  if(GlobalDala.isRecall)
-                                  {
-
-                                    updateStatus();
-                                  }
-                                  else
-                                  {
-                                    submitTableOrder(context, "Submit");
-                                  }
-                                } else {
-                                  showSnackBarInDialog(context, "Cart is empty.!");
-                                }
+                                updateStatus();
                               }
-
+                              else
+                              {
+                                submitTableOrder(context, "Submit");
+                              }
+                            } else {
+                              showSnackBarInDialog(context, "Cart is empty.!");
+                            }
 
 
                           },
@@ -641,13 +607,6 @@ if(GlobalDala.cartPayNowDataList[Constant.taxId3Main] == 3)
         ),
       ),
     );
-  }
-  UserDetailsModel? userdetail;
-  Future<void> _checkStaffBankStatus() async {
-
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    userdetail = await UserRepository().getloginAccess(codeAccess: prefs.getString('accessCode'));
   }
   Widget _buildSingleLineText(String text) {
     return FittedBox(

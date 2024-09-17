@@ -38,7 +38,6 @@ class YourPageWidget extends State<recall> {
   @override
   void initState()  {
     super.initState();
-    _checkStaffBankStatus();
 
   }
 
@@ -214,27 +213,17 @@ class YourPageWidget extends State<recall> {
                       children: [
                         ElevatedButton(
                           onPressed: ()  {
-                            if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-                            {
-                              showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
+                            if (_selectedRecall != null) {
 
-                                return;
-                              });
+                              orderTypeArrayList = GlobalDala.orderTypeArray
+                                  .where((orderType) => orderType != "Recall Delivery")
+                                  .toList();
+                              orderTypeArrayList.remove(_selectedRecall?.orderType);
+
+                              _showOrderTypeDialog(context, _selectedRecall);
+                            } else {
+                              showSnackBarInDialog(context, "Select order first.!");
                             }
-                            else
-                              {
-                                if (_selectedRecall != null) {
-
-                                  orderTypeArrayList = GlobalDala.orderTypeArray
-                                      .where((orderType) => orderType != "Recall Delivery")
-                                      .toList();
-                                  orderTypeArrayList.remove(_selectedRecall?.orderType);
-
-                                  _showOrderTypeDialog(context, _selectedRecall);
-                                } else {
-                                  showSnackBarInDialog(context, "Select order first.!");
-                                }
-                              }
 
 
                           },
@@ -248,67 +237,57 @@ class YourPageWidget extends State<recall> {
                         SizedBox(height: 8.0),
                         ElevatedButton(
                           onPressed: () async {
-                            if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-                            {
-                              showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
-
-                                return;
-                              });
-                            }
-                            else
-                              {
-                                if (_selectedRecall != null) {
-                                  bool confirmDelete = await showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Confirmation'),
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text('Are you sure to void the order?'),
-                                            SizedBox(height: 20),
-                                            TextField(
-                                              controller: descriptionController,
-                                              decoration: InputDecoration(
-                                                labelText: 'Description',
-                                                border: OutlineInputBorder(),
-                                              ),
-                                            ),
-                                          ],
+                            if (_selectedRecall != null) {
+                              bool confirmDelete = await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Confirmation'),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text('Are you sure to void the order?'),
+                                        SizedBox(height: 20),
+                                        TextField(
+                                          controller: descriptionController,
+                                          decoration: InputDecoration(
+                                            labelText: 'Description',
+                                            border: OutlineInputBorder(),
+                                          ),
                                         ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pop(true); // Confirmed
-                                            },
-                                            child: Text('Yes'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pop(false); // Cancel
-                                            },
-                                            child: Text('No'),
-                                          ),
-                                        ],
-                                      );
-                                    },
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(true); // Confirmed
+                                        },
+                                        child: Text('Yes'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(false); // Cancel
+                                        },
+                                        child: Text('No'),
+                                      ),
+                                    ],
                                   );
+                                },
+                              );
 
-                                  if (confirmDelete == true) {
-                                    if (descriptionController.text == "") {
-                                      showSnackBarInDialog(
-                                          context, "Enter Description.!");
-                                    } else {
-                                      _handelVoid(_selectedRecall!.id);
-                                    }
-                                  }
+                              if (confirmDelete == true) {
+                                if (descriptionController.text == "") {
+                                  showSnackBarInDialog(
+                                      context, "Enter Description.!");
                                 } else {
-                                  showSnackBarInDialog(context, "Select order first.!");
+                                  _handelVoid(_selectedRecall!.id);
                                 }
                               }
+                            } else {
+                              showSnackBarInDialog(context, "Select order first.!");
+                            }
 
 
 
@@ -710,28 +689,12 @@ print(" requestData $requestData");
 
     }
   }
-  UserDetailsModel? userdetail;
-  Future<void> _checkStaffBankStatus() async {
 
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    userdetail = await UserRepository().getloginAccess(codeAccess: prefs.getString('accessCode'));
-  }
   void _handleEdit(RecallModel recall) {
-    if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-    {
-      showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
-
-        return;
-      });
-    }
-    else
-      {
-        setOrderData(recall);
-        Navigator.of(context).pop();
-        Navigator.of(context, rootNavigator: true)
-            .push(MaterialPageRoute(builder: (context) => cart()));
-      }
+    setOrderData(recall);
+    Navigator.of(context).pop();
+    Navigator.of(context, rootNavigator: true)
+        .push(MaterialPageRoute(builder: (context) => cart()));
 
   }
 

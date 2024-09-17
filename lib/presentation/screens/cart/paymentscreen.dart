@@ -54,7 +54,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   void initState() {
     super.initState();
-    _checkStaffBankStatus();
     totalPayableController =
         TextEditingController(text: widget.totalAmount.toStringAsFixed(2));
     balanceController =
@@ -409,98 +408,87 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Future<void> sendPayment()
   async {
 
-    if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-    {
-      showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
+    print("Send payment success");
+    setState(() {
+      isLoading =
+      true; // Set isLoading to true when fetching data starts
+    });
+    try {
+      double chequeAmount =
+          double.tryParse(chequeController.text) ?? 0.0;
+      String chequeNo = chequeNoController.text.trim();
 
+      if (chequeAmount > 0 && (chequeNo.isEmpty || double.tryParse(chequeNoController.text)! <= 0)) {
+        showSnackBarInDialog(
+            context, "Please enter cheque number.");
         return;
-      });
-    }
-    else
-    {
-      print("Send payment success");
-      setState(() {
-        isLoading =
-        true; // Set isLoading to true when fetching data starts
-      });
-      try {
-        double chequeAmount =
-            double.tryParse(chequeController.text) ?? 0.0;
-        String chequeNo = chequeNoController.text.trim();
+      }
+      if (balance == 0) {
 
-        if (chequeAmount > 0 && (chequeNo.isEmpty || double.tryParse(chequeNoController.text)! <= 0)) {
-          showSnackBarInDialog(
-              context, "Please enter cheque number.");
-          return;
-        }
-        if (balance == 0) {
+        final Map<String, dynamic> requestData = {
+          "orderId":
+          GlobalDala.cartPayNowDataList[Constant.idMain],
+          "driverId": GlobalDala.cartPayNowDataList[Constant.userIdMain],
+          "cash": cashController.text,
+          "debit": debitController.text,
+          "visa": visaController.text,
+          "master": masterController.text,
+          "amex": amexController.text,
+          "other": otherController.text,
+          "onAccount": onAccountController.text,
+          "cheque": chequeController.text,
+          "chequeNo": chequeNoController.text,
+          "change": changeController.text,
+          "tip": tipAmountController.text,
+          "payment": double.tryParse(totalPayable.toStringAsFixed(2))
+        };
 
-          final Map<String, dynamic> requestData = {
-            "orderId":
-            GlobalDala.cartPayNowDataList[Constant.idMain],
-            "driverId": GlobalDala.cartPayNowDataList[Constant.userIdMain],
-            "cash": cashController.text,
-            "debit": debitController.text,
-            "visa": visaController.text,
-            "master": masterController.text,
-            "amex": amexController.text,
-            "other": otherController.text,
-            "onAccount": onAccountController.text,
-            "cheque": chequeController.text,
-            "chequeNo": chequeNoController.text,
-            "change": changeController.text,
-            "tip": tipAmountController.text,
-            "payment": double.tryParse(totalPayable.toStringAsFixed(2))
-          };
+        print("payment data $requestData");
+        final result = await HomeRepository()
+            .postPayment(body: requestData);
 
-          print("payment data $requestData");
-          final result = await HomeRepository()
-              .postPayment(body: requestData);
+        if (result != null) {
+          if (result is Map<String, dynamic> &&
+              result.containsKey('error')) {
+            showSnackBarInDialog(context, '${result['error']}');
+          } else if (result['statusCode'] == '0000') {
+            showSnackBarInDialogClose(
+                context, '${result['statusMessage']}',
+                    () async {
+                  SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
 
-          if (result != null) {
-            if (result is Map<String, dynamic> &&
-                result.containsKey('error')) {
-              showSnackBarInDialog(context, '${result['error']}');
-            } else if (result['statusCode'] == '0000') {
-              showSnackBarInDialogClose(
-                  context, '${result['statusMessage']}',
-                      () async {
-                    SharedPreferences prefs =
-                    await SharedPreferences.getInstance();
-
-                    List<String>? cartDataList = [];
-                    prefs.setStringList('cartDataList', cartDataList);
-                    GlobalDala.itemCount = cartDataList.length;
-                    if (Navigator.canPop(context)) {
-                      Navigator.popUntil(
-                          context, (route) => route.isFirst);
-                      Navigator.pushNamed(context, "/orderType");
-                    } else {
-                      SystemNavigator.pop();
-                    }
-                  });
-            } else {
-              showSnackBarInDialog(context,
-                  "Unable to send payment. Please try again.");
-            }
+                  List<String>? cartDataList = [];
+                  prefs.setStringList('cartDataList', cartDataList);
+                  GlobalDala.itemCount = cartDataList.length;
+                  if (Navigator.canPop(context)) {
+                    Navigator.popUntil(
+                        context, (route) => route.isFirst);
+                    Navigator.pushNamed(context, "/orderType");
+                  } else {
+                    SystemNavigator.pop();
+                  }
+                });
           } else {
             showSnackBarInDialog(context,
                 "Unable to send payment. Please try again.");
           }
+        } else {
+          showSnackBarInDialog(context,
+              "Unable to send payment. Please try again.");
         }
-
-
-      } catch (e) {
-        print(e);
-        showSnackBarInDialog(context,
-            "Unable to send payment. Please try again.");
-      } finally {
-        setState(() {
-          isLoading = false; // Set isLoading to false when fetching data completes
-        });
       }
-    }
 
+
+    } catch (e) {
+      print(e);
+      showSnackBarInDialog(context,
+          "Unable to send payment. Please try again.");
+    } finally {
+      setState(() {
+        isLoading = false; // Set isLoading to false when fetching data completes
+      });
+    }
 
 
   }
@@ -667,101 +655,90 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   SizedBox(width: 16),
                   ElevatedButton(
                     onPressed: () async {
-                      if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-                      {
-                        showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
-
+                      setState(() {
+                        isLoading =
+                        true; // Set isLoading to true when fetching data starts
+                      });
+                      try {
+                        if (balance != 0) {
+                          showSnackBarInDialog(
+                              context, "Please complete the payment");
                           return;
-                        });
-                      }
-                      else
-                      {
+                        }
 
-                        setState(() {
-                          isLoading =
-                          true; // Set isLoading to true when fetching data starts
-                        });
-                        try {
-                          if (balance != 0) {
-                            showSnackBarInDialog(
-                                context, "Please complete the payment");
-                            return;
-                          }
+                        double chequeAmount =
+                            double.tryParse(chequeController.text) ?? 0.0;
+                        String chequeNo = chequeNoController.text.trim();
 
-                          double chequeAmount =
-                              double.tryParse(chequeController.text) ?? 0.0;
-                          String chequeNo = chequeNoController.text.trim();
+                        if (chequeAmount > 0 &&
+                            (chequeNo.isEmpty ||
+                                double.tryParse(chequeNoController.text)! <=
+                                    0)) {
+                          showSnackBarInDialog(
+                              context, "Please enter cheque number.");
+                          return;
+                        }
+                        final Map<String, dynamic> requestData = {
+                          "orderId":
+                          GlobalDala.cartPayNowDataList[Constant.idMain],
+                          "driverId": GlobalDala.cartPayNowDataList[Constant.userIdMain],
+                          "cash": cashController.text,
+                          "debit": debitController.text,
+                          "visa": visaController.text,
+                          "master": masterController.text,
+                          "amex": amexController.text,
+                          "other": otherController.text,
+                          "onAccount": onAccountController.text,
+                          "cheque": chequeController.text,
+                          "chequeNo": chequeNoController.text,
+                          "change": changeController.text,
+                          "tip": tipAmountController.text,
+                          "payment": double.tryParse(totalPayable.toStringAsFixed(2))
+                        };
 
-                          if (chequeAmount > 0 &&
-                              (chequeNo.isEmpty ||
-                                  double.tryParse(chequeNoController.text)! <=
-                                      0)) {
-                            showSnackBarInDialog(
-                                context, "Please enter cheque number.");
-                            return;
-                          }
-                          final Map<String, dynamic> requestData = {
-                            "orderId":
-                            GlobalDala.cartPayNowDataList[Constant.idMain],
-                            "driverId": GlobalDala.cartPayNowDataList[Constant.userIdMain],
-                            "cash": cashController.text,
-                            "debit": debitController.text,
-                            "visa": visaController.text,
-                            "master": masterController.text,
-                            "amex": amexController.text,
-                            "other": otherController.text,
-                            "onAccount": onAccountController.text,
-                            "cheque": chequeController.text,
-                            "chequeNo": chequeNoController.text,
-                            "change": changeController.text,
-                            "tip": tipAmountController.text,
-                            "payment": double.tryParse(totalPayable.toStringAsFixed(2))
-                          };
+                        print("payment data $requestData");
+                        final result = await HomeRepository()
+                            .postPayment(body: requestData);
 
-                          print("payment data $requestData");
-                          final result = await HomeRepository()
-                              .postPayment(body: requestData);
+                        if (result != null) {
+                          if (result is Map<String, dynamic> &&
+                              result.containsKey('error')) {
+                            showSnackBarInDialog(context, '${result['error']}');
+                          } else if (result['statusCode'] == '0000') {
+                            showSnackBarInDialogClose(
+                                context, '${result['statusMessage']}',
+                                    () async {
+                                  SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
 
-                          if (result != null) {
-                            if (result is Map<String, dynamic> &&
-                                result.containsKey('error')) {
-                              showSnackBarInDialog(context, '${result['error']}');
-                            } else if (result['statusCode'] == '0000') {
-                              showSnackBarInDialogClose(
-                                  context, '${result['statusMessage']}',
-                                      () async {
-                                    SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-
-                                    List<String>? cartDataList = [];
-                                    prefs.setStringList('cartDataList', cartDataList);
-                                    GlobalDala.itemCount = cartDataList.length;
-                                    if (Navigator.canPop(context)) {
-                                      Navigator.popUntil(
-                                          context, (route) => route.isFirst);
-                                      Navigator.pushNamed(context, "/orderType");
-                                    } else {
-                                      SystemNavigator.pop();
-                                    }
-                                  });
-                            } else {
-                              showSnackBarInDialog(context,
-                                  "Unable to send payment. Please try again.");
-                            }
+                                  List<String>? cartDataList = [];
+                                  prefs.setStringList('cartDataList', cartDataList);
+                                  GlobalDala.itemCount = cartDataList.length;
+                                  if (Navigator.canPop(context)) {
+                                    Navigator.popUntil(
+                                        context, (route) => route.isFirst);
+                                    Navigator.pushNamed(context, "/orderType");
+                                  } else {
+                                    SystemNavigator.pop();
+                                  }
+                                });
                           } else {
                             showSnackBarInDialog(context,
                                 "Unable to send payment. Please try again.");
                           }
-                        } catch (e) {
-                          print(e);
+                        } else {
                           showSnackBarInDialog(context,
                               "Unable to send payment. Please try again.");
-                        } finally {
-                          setState(() {
-                            isLoading =
-                            false; // Set isLoading to false when fetching data completes
-                          });
                         }
+                      } catch (e) {
+                        print(e);
+                        showSnackBarInDialog(context,
+                            "Unable to send payment. Please try again.");
+                      } finally {
+                        setState(() {
+                          isLoading =
+                          false; // Set isLoading to false when fetching data completes
+                        });
                       }
 
 
@@ -949,13 +926,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  UserDetailsModel? userdetail;
-  Future<void> _checkStaffBankStatus() async {
 
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    userdetail = await UserRepository().getloginAccess(codeAccess: prefs.getString('accessCode'));
-  }
 
 
 }

@@ -72,54 +72,43 @@ class _RecallDeliveryState extends State<RecallDelivery> {
                                     iconColor = Colors.red;// Example icon for arrival
                                     onPressedAction = () async {
 
-                                      if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-                                      {
-                                        showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
+                                      try {
+                                        setState(() {
+                                          isLoading = true; // Set isLoading to false when fetching data completes
+                                        });
+                                        final Map<String, dynamic> requestData =
+                                        {
+                                          "driverId": GlobalDala.cartPayNowDataList[Constant.userIdMain],
+                                          "orderId": order.id,
+                                          "action": "depart"
+                                        };
+                                        final result = await HomeRepository()
+                                            .postRecallDelivery(
+                                            body: requestData);
 
-                                          return;
+                                        if (result.containsKey('success')) {
+                                          showSnackBarInDialog(
+                                              context, "${result['success']}");
+                                        } else if (result
+                                            .containsKey('error')) {
+                                          showSnackBarInDialog(
+                                              context, "${result['error']}");
+                                        } else {
+                                          showSnackBarInDialog(context,
+                                              "Unexpected response: $result");
+                                        }
+                                      } catch (e) {
+                                        print(e);
+                                        setState(() {
+                                          isLoading = false; // Set isLoading to false when fetching data completes
                                         });
                                       }
-                                      else
+                                      finally
                                       {
-                                        try {
-                                          setState(() {
-                                            isLoading = true; // Set isLoading to false when fetching data completes
-                                          });
-                                          final Map<String, dynamic> requestData =
-                                          {
-                                            "driverId": GlobalDala.cartPayNowDataList[Constant.userIdMain],
-                                            "orderId": order.id,
-                                            "action": "depart"
-                                          };
-                                          final result = await HomeRepository()
-                                              .postRecallDelivery(
-                                              body: requestData);
-
-                                          if (result.containsKey('success')) {
-                                            showSnackBarInDialog(
-                                                context, "${result['success']}");
-                                          } else if (result
-                                              .containsKey('error')) {
-                                            showSnackBarInDialog(
-                                                context, "${result['error']}");
-                                          } else {
-                                            showSnackBarInDialog(context,
-                                                "Unexpected response: $result");
-                                          }
-                                        } catch (e) {
-                                          print(e);
-                                          setState(() {
-                                            isLoading = false; // Set isLoading to false when fetching data completes
-                                          });
-                                        }
-                                        finally
-                                        {
-                                          setState(() {
-                                            isLoading = false; // Set isLoading to false when fetching data completes
-                                          });
-                                        }
+                                        setState(() {
+                                          isLoading = false; // Set isLoading to false when fetching data completes
+                                        });
                                       }
-
 
                                     };
                                     break;
@@ -128,55 +117,43 @@ class _RecallDeliveryState extends State<RecallDelivery> {
                                     iconColor = Colors.green;// Example icon for departure
                                     onPressedAction = () async {
 
-                                      if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-                                      {
-                                        showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
+                                      try {
+                                        setState(() {
+                                          isLoading = true; // Set isLoading to false when fetching data completes
+                                        });
+                                        final Map<String, dynamic> requestData =
+                                        {
+                                          "driverId": GlobalDala.cartPayNowDataList[Constant.userIdMain],
+                                          "orderId": order.id,
+                                          "action": "arrive"
+                                        };
+                                        final result = await HomeRepository()
+                                            .postRecallDelivery(
+                                            body: requestData);
 
-                                          return;
+                                        if (result.containsKey('success')) {
+                                          showSnackBarInDialog(
+                                              context, "${result['success']}");
+                                        } else if (result
+                                            .containsKey('error')) {
+                                          showSnackBarInDialog(
+                                              context, "${result['error']}");
+                                        } else {
+                                          showSnackBarInDialog(context,
+                                              "Unexpected response: $result");
+                                        }
+                                      } catch (e) {
+                                        print(e);
+                                        setState(() {
+                                          isLoading = false; // Set isLoading to false when fetching data completes
                                         });
                                       }
-                                      else
+                                      finally
                                       {
-                                        try {
-                                          setState(() {
-                                            isLoading = true; // Set isLoading to false when fetching data completes
-                                          });
-                                          final Map<String, dynamic> requestData =
-                                          {
-                                            "driverId": GlobalDala.cartPayNowDataList[Constant.userIdMain],
-                                            "orderId": order.id,
-                                            "action": "arrive"
-                                          };
-                                          final result = await HomeRepository()
-                                              .postRecallDelivery(
-                                              body: requestData);
-
-                                          if (result.containsKey('success')) {
-                                            showSnackBarInDialog(
-                                                context, "${result['success']}");
-                                          } else if (result
-                                              .containsKey('error')) {
-                                            showSnackBarInDialog(
-                                                context, "${result['error']}");
-                                          } else {
-                                            showSnackBarInDialog(context,
-                                                "Unexpected response: $result");
-                                          }
-                                        } catch (e) {
-                                          print(e);
-                                          setState(() {
-                                            isLoading = false; // Set isLoading to false when fetching data completes
-                                          });
-                                        }
-                                        finally
-                                        {
-                                          setState(() {
-                                            isLoading = false; // Set isLoading to false when fetching data completes
-                                          });
-                                        }
+                                        setState(() {
+                                          isLoading = false; // Set isLoading to false when fetching data completes
+                                        });
                                       }
-
-
 
 
                                     };
@@ -187,24 +164,13 @@ class _RecallDeliveryState extends State<RecallDelivery> {
                                     iconColor = Colors.black;
                                     onPressedAction = () {
 
-                                      if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-                                      {
-                                        showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
-
-                                          return;
-                                        });
-                                      }
-                                      else
-                                      {
-                                        GlobalDala.cartPayNowDataList[Constant.idMain] = order.id;
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PaymentScreen( order.orderTotal ??
-                                                        0.00)));
-                                      }
-
+                                      GlobalDala.cartPayNowDataList[Constant.idMain] = order.id;
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PaymentScreen( order.orderTotal ??
+                                                      0.00)));
                                     };
                                     break;
                                 }
@@ -262,14 +228,6 @@ class _RecallDeliveryState extends State<RecallDelivery> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _checkStaffBankStatus();
   }
 
-  UserDetailsModel? userdetail;
-  Future<void> _checkStaffBankStatus() async {
-
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    userdetail = await UserRepository().getloginAccess(codeAccess: prefs.getString('accessCode'));
-  }
 }

@@ -1,4 +1,4 @@
-#Thu Sep 12 21:16:53 IST 2024
+#Mon Sep 16 22:39:10 IST 2024
 base.0=G\:\\Client\\DCS Technologies\\App\\Flutter\\TabletApp\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

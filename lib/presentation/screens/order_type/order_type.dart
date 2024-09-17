@@ -39,6 +39,8 @@ class _OrderTypeState extends State<order_type> {
   bool _isLoading = false;
   bool _isLoading2 = false;
 
+  UserDetailsModel? userdetail;
+  final TextEditingController accesscodeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
 
@@ -118,54 +120,210 @@ class _OrderTypeState extends State<order_type> {
                   trailing: Icon(Icons.arrow_right),
                   textColor: AppColors.appColor,
                   onTap: () async {
+                    GlobalDala.isOrderTypeEdit = false;
+                    GlobalDala.cartPayNowDataList[Constant.orderTypeMain] = GlobalDala.orderTypeArray[index];
 
-                    print("userdetail?.isStaffBankEnabled : ${userdetail?.isStaffBankEnabled}");
-                    print("userdetail?.staffBankStatus : ${userdetail?.staffBankStatus}");
-                    if(userdetail?.isStaffBankEnabled == 1 && userdetail?.staffBankStatus == "CLOSE")
-                    {
-                      showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
+                    defaultStorage();
+                    if(GlobalDala.homeModel?.trackByID == 0)
+                      {
 
-                        return;
-                      });
-                    }
+
+                        if (GlobalDala.orderTypeArray[index] == "Delivery") {
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DeliveryForm()));
+                        }
+                        else if (GlobalDala.orderTypeArray[index] == "PICKUP") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PickUpForm()));
+                        }
+                        else if (GlobalDala.orderTypeArray[index] == "RECALL") {
+
+                          GlobalDala.isRecall=true;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => recall()));
+                        }
+                        else if (GlobalDala.orderTypeArray[index] == "DineIn") {
+
+                          getTableGroup();
+                        }
+                        else if (GlobalDala.orderTypeArray[index] == "Recall Delivery") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RecallDelivery()));
+                        }
+                        else {
+                          getClientDetails();
+                        }
+                      }
                     else
-                    {
-                      GlobalDala.isOrderTypeEdit = false;
-                      GlobalDala.cartPayNowDataList[Constant.orderTypeMain] = GlobalDala.orderTypeArray[index];
+                      {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextField(
+                                    controller: accesscodeController,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      labelText:
+                                      "Enter access code",
+                                      border:
+                                      OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  SizedBox(height: 20),
 
-                      defaultStorage();
+                                ],
+                              ),
 
-                      if (GlobalDala.orderTypeArray[index] == "Delivery") {
+                              actions: [
+                                TextButton(
+                                  onPressed: () async {
+                                    if (accesscodeController.text == "") {
+                                      showSnackBarInDialog(
+                                          context, "Enter access code.!");
+                                      return;
+                                    } else {
+                                      setState(() {
+                                        _isLoading2 = true; // Set loading state to true before fetching data
+                                      });
 
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DeliveryForm()));
+                                      try {
+                                        userdetail = await UserRepository().getloginAccess(codeAccess: accesscodeController.text);
+
+                                        if (userdetail != null) {
+
+                                             if(userdetail?.isStaffBankEnabled==1 && userdetail?.staffBankStatus == "CLOSE")
+                                             {
+                                               showSnackBarInDialogClose(context, "Staff bank not open for this user.", () {
+                                                 accesscodeController.clear();
+                                                 Navigator.of(context).pop();
+
+                                                 return;
+                                               });
+                                             }
+                                             else
+                                             {
+
+                                               if(GlobalDala.orderTypeArray[index] != "Recall Delivery" && userdetail?.isAdmin == 0 && userdetail?.isDriver == 1)
+                                                 {
+                                                   showSnackBarInDialogClose(context, "Access denied for driver.!", () {
+                                                     accesscodeController.clear();
+                                                     Navigator.of(context).pop();
+
+                                                     return;
+                                                   });
+                                                 }
+                                               else if(GlobalDala.orderTypeArray[index] == "Recall Delivery" &&  userdetail?.isDriver == 0)
+                                                 {
+                                                   showSnackBarInDialogClose(context, "Access denied !", () {
+                                                     accesscodeController.clear();
+                                                     Navigator.of(context).pop();
+
+                                                     return;
+                                                   });
+                                                 }
+                                               else
+                                                 {
+                                                   SharedPreferencesHelper.saveUserData(userdetail!);
+                                                   await Future.delayed(Duration(milliseconds: 200));
+
+                                                   GlobalDala.cartPayNowDataList[Constant.userIdMain] = userdetail?.id;
+                                                   SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                   prefs.setString('accessCode', accesscodeController.text.toString());
+                                                   accesscodeController.clear();
+                                                   Navigator.of(context).pop();
+
+
+                                                   if (GlobalDala.orderTypeArray[index] == "Delivery") {
+
+                                                     Navigator.push(
+                                                         context,
+                                                         MaterialPageRoute(
+                                                             builder: (context) => DeliveryForm()));
+                                                   }
+                                                   else if (GlobalDala.orderTypeArray[index] == "PICKUP") {
+                                                     Navigator.push(
+                                                         context,
+                                                         MaterialPageRoute(
+                                                             builder: (context) => PickUpForm()));
+                                                   }
+                                                   else if (GlobalDala.orderTypeArray[index] == "RECALL") {
+
+                                                     GlobalDala.isRecall=true;
+                                                     Navigator.push(
+                                                         context,
+                                                         MaterialPageRoute(
+                                                             builder: (context) => recall()));
+                                                   }
+                                                   else if (GlobalDala.orderTypeArray[index] == "DineIn") {
+
+                                                     getTableGroup();
+                                                   }
+                                                   else if (GlobalDala.orderTypeArray[index] == "Recall Delivery") {
+                                                     Navigator.push(
+                                                         context,
+                                                         MaterialPageRoute(
+                                                             builder: (context) => RecallDelivery()));
+                                                   }
+                                                   else {
+                                                     getClientDetails();
+                                                   }
+
+                                                 }
+
+
+                                             }
+
+                                           } else {
+                                             showSnackBarInDialog(context,
+                                                 "Invalid access code. Please enter a valid one.");
+
+                                           }
+                                      } catch (e) {
+                                        print(e);
+                                      }
+                                      finally{
+                                        setState(() {
+                                          _isLoading2 = false; // Set loading state to true before fetching data
+                                        });
+                                      //  Navigator.of(context).pop();
+                                      }
+
+
+
+
+                                    }
+                                  },
+                                  child: Text('Done'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    accesscodeController.clear();
+                                    Navigator.of(context).pop(); // Cancel
+                                  },
+                                  child: Text('Close'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       }
-                      else if (GlobalDala.orderTypeArray[index] == "PICKUP") {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PickUpForm()));
-                      } else if (GlobalDala.orderTypeArray[index] == "RECALL") {
 
-                        GlobalDala.isRecall=true;
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => recall()));
-                      }else if (GlobalDala.orderTypeArray[index] == "DineIn") {
 
-                        getTableGroup();
-                      }else if (GlobalDala.orderTypeArray[index] == "Recall Delivery") {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RecallDelivery()));
-                      } else {
-                        getClientDetails();
-                      }
-                    }
+
 
 
                   },
@@ -204,7 +362,6 @@ class _OrderTypeState extends State<order_type> {
   void initState() {
     super.initState();
     print('OrderType Init');
-    _checkStaffBankStatus();
     getOrderType();
     //
   }
@@ -358,7 +515,9 @@ class _OrderTypeState extends State<order_type> {
           {
             GlobalDala.homeModel = result;
 
-            if(prefs.getInt("isAdmin")==1) {
+            // setup if admin
+            if(prefs.getInt("isAdmin")==1 || prefs.getInt("isDriver")==0) {
+
               if (GlobalDala.homeModel?.settings?.olTableTakeOut == "1") {
                 GlobalDala.orderTypeArray.add("PICKUP");
               }
@@ -385,7 +544,11 @@ class _OrderTypeState extends State<order_type> {
               }
 
               GlobalDala.orderTypeArray.add("RECALL");
+
             }
+
+
+
           }
 
           else if (result is String)
@@ -426,6 +589,7 @@ class _OrderTypeState extends State<order_type> {
         }
     });
   }
+/*
   UserDetailsModel? userdetail;
   Future<void> _checkStaffBankStatus() async {
 
@@ -433,6 +597,7 @@ class _OrderTypeState extends State<order_type> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userdetail = await UserRepository().getloginAccess(codeAccess: prefs.getString('accessCode'));
   }
+*/
 
 
 }

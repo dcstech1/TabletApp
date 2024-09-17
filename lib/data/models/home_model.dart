@@ -39,6 +39,7 @@ class HomeModel {
   dynamic? applytakeoutdeliveryprice;
   dynamic? applydeliveryonorderkm;
   dynamic? minimumdeliveryorder;
+  dynamic? trackByID;
 
   HomeModel({
     this.taxes,
@@ -71,6 +72,7 @@ class HomeModel {
     this.applytakeoutdeliveryprice,
     this.applydeliveryonorderkm,
     this.minimumdeliveryorder,
+    this.trackByID,
   });
 
   factory HomeModel.fromJson(Map<String, dynamic> json) => HomeModel(
@@ -104,6 +106,7 @@ class HomeModel {
     applytakeoutdeliveryprice: json["applytakeoutdeliveryprice"],
     applydeliveryonorderkm: json["applydeliveryonorderkm"],
     minimumdeliveryorder: json["minimumdeliveryorder"],
+    trackByID: json["trackByID"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -137,6 +140,7 @@ class HomeModel {
     "applytakeoutdeliveryprice": applytakeoutdeliveryprice,
     "applydeliveryonorderkm": applydeliveryonorderkm,
     "minimumdeliveryorder": minimumdeliveryorder,
+    "trackByID": trackByID,
   };
 }
 
