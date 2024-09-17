@@ -730,7 +730,7 @@ if(GlobalDala.cartPayNowDataList[Constant.taxId3Main] == 3)
                     }
 
                   GlobalDala.cartPayNowDataList[Constant.serviceChargeMain] =
-                      serviceAmount;
+                      serviceAmount ?? 0;
 
                 });
               },

@@ -349,13 +349,13 @@ class _BarTabState extends State<BarTabScreen> {
     GlobalDala.cartPayNowDataList[Constant.clientNameMain] = recall.clientName;
     GlobalDala.cartPayNowDataList[Constant.phoneNumberMain] =
         recall.phoneNumber;
-    GlobalDala.cartPayNowDataList[Constant.subTotalMain] = recall.subTotal;
+    GlobalDala.cartPayNowDataList[Constant.subTotalMain] = recall.subTotal ?? 0;
     /*GlobalDala.cartPayNowDataList[Constant.serviceChargePercentageMain] = recall.serviceChargePercentage;*/
     GlobalDala.cartPayNowDataList[Constant.serviceChargeMain] =
-        recall.serviceCharge;
-    GlobalDala.cartPayNowDataList[Constant.orderTotalMain] = recall.orderTotal;
+        recall.serviceCharge ?? 0;
+    GlobalDala.cartPayNowDataList[Constant.orderTotalMain] = recall.orderTotal ?? 0;
     GlobalDala.cartPayNowDataList[Constant.deliveryChargeMain] =
-        recall.deliveryCharge;
+        recall.deliveryCharge ?? 0;
 
     for (int i = 0; i < (recall.orderDetails?.length ?? 0); i++) {
       GlobalDala.cartData[Constant.id] = recall.orderDetails?[i].id;

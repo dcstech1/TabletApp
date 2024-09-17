@@ -184,10 +184,10 @@ class _DineInRacallState extends State<DineInRacall> {
     GlobalDala.cartPayNowDataList[Constant.subTotalMain] = recall.subTotal;
     /*GlobalDala.cartPayNowDataList[Constant.serviceChargePercentageMain] = recall.serviceChargePercentage;*/
     GlobalDala.cartPayNowDataList[Constant.serviceChargeMain] =
-        recall.serviceCharge;
+        recall.serviceCharge ?? 0;
     GlobalDala.cartPayNowDataList[Constant.orderTotalMain] = recall.orderTotal;
     GlobalDala.cartPayNowDataList[Constant.deliveryChargeMain] =
-        recall.deliveryCharge;
+        recall.deliveryCharge ?? 0;
 
     for (int i = 0; i < (recall.orderDetails?.length ?? 0); i++) {
       GlobalDala.cartData[Constant.id] = recall.orderDetails?[i].id;
