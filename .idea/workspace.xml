@@ -4,24 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddeaa7c9-e8cb-42d2-b718-8041b1db7cb6" name="Changes" comment="changes commit">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d58f811ace4efe3173bdf13200e67f85/.filecache" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d58f811ace4efe3173bdf13200e67f85/.filecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/d58f811ace4efe3173bdf13200e67f85/app.dill" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/d58f811ace4efe3173bdf13200e67f85/app.dill" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/943f1c9628753f6b781df6a32a40507a.cache.dill.track.dill" beforeDir="false" afterPath="$PROJECT_DIR$/build/943f1c9628753f6b781df6a32a40507a.cache.dill.track.dill" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/assets/debug/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/assets/debug/flutter_assets/kernel_blob.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/compressed_assets/debug/out/assets/flutter_assets/kernel_blob.bin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/compressed_assets/debug/out/assets/flutter_assets/kernel_blob.bin.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-debug.apk.sha1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-release.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-release.apk.sha1" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-release.apk.sha1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/network/services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/network/services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/dinein/dine_in_listscreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/dinein/dine_in_listscreen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/order_type/order_type.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/order_type/order_type.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/recall/recall.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/recall/recall.dart" afterDir="false" />
-    </list>
+    <list default="true" id="ddeaa7c9-e8cb-42d2-b718-8041b1db7cb6" name="Changes" comment="changes commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
