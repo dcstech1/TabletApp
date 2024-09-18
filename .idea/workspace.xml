@@ -14,10 +14,13 @@
       <change beforePath="$PROJECT_DIR$/build/app/intermediates/compressed_assets/debug/out/assets/flutter_assets/kernel_blob.bin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/compressed_assets/debug/out/assets/flutter_assets/kernel_blob.bin.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-debug.apk.sha1" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-debug.apk.sha1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/cart/cart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/cart/cart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/dinein/bartab_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/dinein/bartab_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/recall/dinein_recall.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/recall/dinein_recall.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-debug.apk.sha1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-release.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-release.apk.sha1" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-release.apk.sha1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/network/services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/network/services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/dinein/dine_in_listscreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/dinein/dine_in_listscreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/order_type/order_type.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/order_type/order_type.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/recall/recall.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/recall/recall.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,5 +107,16 @@
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="changes commit" />
     <option name="LAST_COMMIT_MESSAGE" value="changes commit" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/presentation/screens/cart/cart.dart</url>
+          <line>45</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -13,6 +13,7 @@ import 'package:tabletapp/presentation/screens/cart/paymentscreen.dart';
 import 'package:tabletapp/presentation/screens/delivery/delivery.dart';
 import 'package:tabletapp/presentation/screens/dinein/bartab_screen.dart';
 import 'package:tabletapp/presentation/screens/dinein/dine_in.dart';
+import 'package:tabletapp/presentation/screens/dinein/dine_in_listscreen.dart';
 import 'package:tabletapp/presentation/screens/login/login.dart';
 import 'package:tabletapp/presentation/screens/pickup/pick_up.dart';
 import 'package:tabletapp/presentation/screens/recall/delivery_recall.dart';
@@ -190,6 +191,13 @@ class _OrderTypeState extends State<order_type> {
 
                               actions: [
                                 TextButton(
+                                  onPressed: () {
+                                    accesscodeController.clear();
+                                    Navigator.of(context).pop(); // Cancel
+                                  },
+                                  child: Text('Close'),
+                                ),
+                                TextButton(
                                   onPressed: () async {
                                     if (accesscodeController.text == "") {
                                       showSnackBarInDialog(
@@ -309,13 +317,6 @@ class _OrderTypeState extends State<order_type> {
                                   },
                                   child: Text('Done'),
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    accesscodeController.clear();
-                                    Navigator.of(context).pop(); // Cancel
-                                  },
-                                  child: Text('Close'),
-                                ),
                               ],
                             );
                           },
@@ -429,7 +430,7 @@ class _OrderTypeState extends State<order_type> {
           {
             //GlobalDala.cartPayNowDataList[Constant.orderTypeMain]="DineIn";
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => dine_in(tableGroupModelList)));
+                context, MaterialPageRoute(builder: (context) => DineInListScreen(tableGroupModelList)));
           }
 
         else if (GlobalDala.cartPayNowDataList[Constant.orderTypeMain] == "BarTab") {

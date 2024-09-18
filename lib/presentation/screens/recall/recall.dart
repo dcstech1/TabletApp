@@ -20,6 +20,7 @@ import '../../../data/models/user_details_model.dart';
 import '../../../utils/constant.dart';
 import '../cart/cart.dart';
 import '../delivery/delivery.dart';
+import '../dinein/dine_in_listscreen.dart';
 import '../global.dart';
 import '../pickup/pick_up.dart';
 
@@ -569,7 +570,7 @@ class YourPageWidget extends State<recall> {
       if(tableGroupModelList.isNotEmpty)
       {
 
-        final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => dine_in(tableGroupModelList)),);
+        final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => DineInListScreen(tableGroupModelList)),);
         if (result != null && mounted) {
           _selectedIndex = -1;
           _selectedRecall = null;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../data/Repository/HomeModuleRepository.dart';
@@ -95,8 +96,6 @@ class _ApiDisplayWidgetState extends State<ApiDisplayWidget> {
           dineinTableModelList = snapshot.data!;
           return MyHomePage(
             tableData: dineinTableModelList,
-            cardWidth: MediaQuery.of(context).size.width * 0.40,
-            cardHeight: MediaQuery.of(context).size.width * 0.35,
           );
         }
       },
@@ -106,13 +105,9 @@ class _ApiDisplayWidgetState extends State<ApiDisplayWidget> {
 
 class MyHomePage extends StatelessWidget {
   final List<DineInTableModel> tableData;
-  final double cardWidth;
-  final double cardHeight;
 
   MyHomePage({
     required this.tableData,
-    required this.cardWidth,
-    required this.cardHeight,
   });
 
   @override
@@ -122,7 +117,11 @@ class MyHomePage extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         final table = tableData[index];
         return GestureDetector(
-          onTap: () {
+          onTap: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            List<String>? cartDataList = [];
+            prefs.setStringList('cartDataList', cartDataList);
+            GlobalDala.itemCount = cartDataList.length;
             if (table.tableOrdersInfo != null &&
                 table.tableOrdersInfo!.isNotEmpty &&
                 !GlobalDala.isOrderTypeEdit) {
@@ -158,23 +157,16 @@ class MyHomePage extends StatelessWidget {
                             ),
                             SizedBox(height: 20),
                             TextButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 Navigator.of(context).pop();
-                                if (guestNumber <= table.seatsNumber &&
-                                    guestNumber > 0) {
-                                  GlobalDala.cartPayNowDataList[
-                                  Constant.tableIdMain] =
-                                      table.id;
-                                  GlobalDala.cartPayNowDataList[
-                                  Constant.tableNameMain] =
-                                      table.name;
-                                  GlobalDala.cartPayNowDataList[
-                                  Constant.guestNoMain] =
-                                      guestNumber;
-                                  GlobalDala.cartPayNowDataList[
-                                  Constant.tableInfoMain] =
-                                      table.tableDescription;
+                                if (guestNumber <= table.seatsNumber && guestNumber > 0) {
+                                  GlobalDala.cartPayNowDataList[Constant.tableIdMain] = table.id;
+                                  GlobalDala.cartPayNowDataList[Constant.tableNameMain] = table.name;
+                                  GlobalDala.cartPayNowDataList[Constant.guestNoMain] = guestNumber;
+                                  GlobalDala.cartPayNowDataList[Constant.tableInfoMain] = table.tableDescription;
                                   if (!GlobalDala.isOrderTypeEdit) {
+
+
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -217,8 +209,7 @@ class MyHomePage extends StatelessWidget {
     return SingleChildScrollView(
       child: Card(
         color: backgroundColor,
-        child: SizedBox(
-          width: cardWidth - 16.0, // Adjusted width to account for padding
+        child: SizedBox(// Adjusted width to account for padding
           child: Padding(
             padding: const EdgeInsets.all(8.0), // Reduced padding
             child: Column(

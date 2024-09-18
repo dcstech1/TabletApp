@@ -17,9 +17,7 @@ extension ApiServiceExtension on ApiServices {
         return '/User?accesscode=\$accesscode';
       case ApiServices.pickupFromPhoneNo:
         return '/Customer?phoneNo=\$phoneNo';
-        //return '/Customer/byphone?phoneNo=\$phoneNo';
       case ApiServices.searchFromPhoneNo:
-        //return '/Customer?phoneNo=\$phoneNo';
         return '/Customer/byphone?phoneNo=\$phoneNo';
       case ApiServices.deliveryCharge:
         return '/order?address=\$address';
