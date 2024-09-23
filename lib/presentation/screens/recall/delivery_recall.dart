@@ -73,9 +73,9 @@ class _RecallDeliveryState extends State<RecallDelivery> {
                                     onPressedAction = () async {
 
                                       try {
-                                        setState(() {
+                                     /*   setState(() {
                                           isLoading = true; // Set isLoading to false when fetching data completes
-                                        });
+                                        });*/
                                         final Map<String, dynamic> requestData =
                                         {
                                           "driverId": GlobalDala.cartPayNowDataList[Constant.userIdMain],
@@ -99,17 +99,17 @@ class _RecallDeliveryState extends State<RecallDelivery> {
                                         }
                                       } catch (e) {
                                         print(e);
-                                        setState(() {
+                                      /*  setState(() {
                                           isLoading = false; // Set isLoading to false when fetching data completes
-                                        });
+                                        });*/
                                       }
                                       finally
                                       {
 
                                         //await Future.delayed(Duration(milliseconds: 300));
-                                        setState(() {
+                                      /*  setState(() {
                                           isLoading = false; // Set isLoading to false when fetching data completes
-                                        });
+                                        });*/
                                       }
 
                                     };
