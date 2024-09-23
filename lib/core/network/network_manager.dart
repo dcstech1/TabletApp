@@ -13,10 +13,9 @@ class NetworkManager {
   //final String baseUrl = 'https://onlinefoodordering.ca/RangerAPI/SelfServKiosk/api';
   final String baseUrl = GlobalDala.baseUrl;
   //final String baseUrl = 'https://onlinefoodordering.ca/RangerAPI/KioskUstaadG/api';
+  //final String baseUrl = 'https://onlinefoodordering.ca/RangerAPI/Kioskindianaccent/api';  //0808
 
-  // static String interpolateEndPoint(String endPoint, Map<String, String> urlValues) {
-  //   return endPoint.replaceFirst('\$serverId', serverId);
-  // }
+
   String interpolateEndPoint(String endPoint, Map<String, String> urlValues) {
     for (var key in urlValues.keys) {
       if (endPoint.contains('\$$key')) {

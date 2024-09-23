@@ -105,6 +105,8 @@ class _RecallDeliveryState extends State<RecallDelivery> {
                                       }
                                       finally
                                       {
+
+                                        //await Future.delayed(Duration(milliseconds: 300));
                                         setState(() {
                                           isLoading = false; // Set isLoading to false when fetching data completes
                                         });
@@ -150,6 +152,8 @@ class _RecallDeliveryState extends State<RecallDelivery> {
                                       }
                                       finally
                                       {
+
+                                     //   await Future.delayed(Duration(milliseconds: 300));
                                         setState(() {
                                           isLoading = false; // Set isLoading to false when fetching data completes
                                         });

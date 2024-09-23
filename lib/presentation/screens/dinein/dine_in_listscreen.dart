@@ -102,6 +102,7 @@ class _ApiDisplayWidgetState extends State<ApiDisplayWidget> {
     );
   }
 }
+/*
 
 class MyHomePage extends StatelessWidget {
   final List<DineInTableModel> tableData;
@@ -250,6 +251,161 @@ class MyHomePage extends StatelessWidget {
                   ],
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}*/
+
+class MyHomePage extends StatelessWidget {
+  final List<DineInTableModel> tableData;
+
+  MyHomePage({
+    required this.tableData,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, // 2 records in a row
+        crossAxisSpacing: 8.0, // Horizontal spacing between items
+        mainAxisSpacing: 8.0, // Vertical spacing between items
+        childAspectRatio: 2, // Aspect ratio of each item (width / height)
+      ),
+      padding: const EdgeInsets.all(8.0), // Padding around the grid
+      itemCount: tableData.length,
+      itemBuilder: (BuildContext context, int index) {
+        final table = tableData[index];
+        return GestureDetector(
+          onTap: () {
+            if (table.tableOrdersInfo != null &&
+                table.tableOrdersInfo!.isNotEmpty &&
+                !GlobalDala.isOrderTypeEdit) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DineInRacall(table)),
+              );
+            } else {
+              int guestNumber = 0; // Default value
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextField(
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                setState(() {
+                                  guestNumber = int.tryParse(value) ?? 0;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Number of Guests',
+                                errorText: guestNumber > table.seatsNumber
+                                    ? 'Maximum guest allowed is: ${table.seatsNumber}'
+                                    : null,
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                if (guestNumber <= table.seatsNumber &&
+                                    guestNumber > 0) {
+                                  GlobalDala.cartPayNowDataList[
+                                  Constant.tableIdMain] = table.id;
+                                  GlobalDala.cartPayNowDataList[
+                                  Constant.tableNameMain] = table.name;
+                                  GlobalDala.cartPayNowDataList[
+                                  Constant.guestNoMain] = guestNumber;
+                                  GlobalDala.cartPayNowDataList[
+                                  Constant.tableInfoMain] =
+                                      table.tableDescription;
+                                  if (!GlobalDala.isOrderTypeEdit) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => home("dineIn")));
+                                  } else {
+                                    Navigator.pop(context, "Task completed!");
+                                  }
+                                } else {
+                                  showSnackBarInDialog(
+                                      context, "Enter valid guest number.!");
+                                }
+                              },
+                              child: Text('Done'),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  );
+                },
+              );
+            }
+          },
+          child: buildTableCard(table),
+        );
+      },
+    );
+  }
+
+  Widget buildTableCard(DineInTableModel table) {
+    Color backgroundColor = table.bgColor != null && table.bgColor!.isNotEmpty
+        ? Color(int.parse(table.bgColor!))
+        : Colors.white;
+    Color fontColor = table.fontColor!.isNotEmpty
+        ? Color(int.parse(table.fontColor!))
+        : Colors.black;
+
+    return Card(
+      color: backgroundColor,
+      child: SizedBox(
+        height: 150.0, // Fixed height for each item
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${table.name}',
+                style: TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold,
+                  color: fontColor,
+                ),
+              ),
+              SizedBox(height: 4.0),
+              Text('Guests: ${table.seatsNumber}',
+                  style: TextStyle(color: fontColor)),
+              if (table.tableOrdersInfo != null && table.tableOrdersInfo!.isNotEmpty)
+                ...[
+                  SizedBox(height: 4.0),
+                  Text('Orders:',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: fontColor)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      for (var order in table.tableOrdersInfo!)
+                        Text(
+                          '${order.orderNo} - ${order.userName}',
+                          style: TextStyle(
+                            color: fontColor,
+                            fontSize: 12,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+            ],
           ),
         ),
       ),

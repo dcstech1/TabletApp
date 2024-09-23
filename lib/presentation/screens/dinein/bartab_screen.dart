@@ -98,11 +98,9 @@ class _BarTabState extends State<BarTabScreen> {
                         String dateTimeString =
                             '${order.onDate} ${order.onTime}';
 
-                        // Parse the dateTimeString into a DateTime object
                         DateFormat format = DateFormat('dd/MM/yyyy HH:mm:ss');
                         DateTime orderDateTime = format.parse(dateTimeString);
 
-                        // Calculate the difference from the current time
                         Duration difference =
                             DateTime.now().difference(orderDateTime);
 

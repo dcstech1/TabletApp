@@ -125,7 +125,7 @@ class _OrderTypeState extends State<order_type> {
                     GlobalDala.cartPayNowDataList[Constant.orderTypeMain] = GlobalDala.orderTypeArray[index];
 
                     defaultStorage();
-                    if(GlobalDala.homeModel?.trackByID == 0)
+                    if(GlobalDala.homeModel?.trackByID == 1)
                       {
 
 
@@ -430,7 +430,7 @@ class _OrderTypeState extends State<order_type> {
           {
             //GlobalDala.cartPayNowDataList[Constant.orderTypeMain]="DineIn";
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => DineInListScreen(tableGroupModelList)));
+                context, MaterialPageRoute(builder: (context) => dine_in(tableGroupModelList)));
           }
 
         else if (GlobalDala.cartPayNowDataList[Constant.orderTypeMain] == "BarTab") {

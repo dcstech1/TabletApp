@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tabletapp/data/models/dineintable_model.dart';
 import 'package:tabletapp/data/models/tablegroup_model.dart';
 
@@ -100,20 +101,19 @@ class _ApiDisplayWidgetState extends State<ApiDisplayWidget> {
           dineinTableModelList = snapshot.data!;
           return
 
-            MyHomePage( tableData: dineinTableModelList, cardWidth: MediaQuery.of(context).size.width * 0.40, // Adjust the width of each card
-              cardHeight: MediaQuery.of(context).size.width * 0.35,);
+            MyHomePage( tableData: dineinTableModelList, cardWidth: MediaQuery.of(context).size.width * 0.125, // Adjust the width of each card
+              cardHeight: MediaQuery.of(context).size.width * 0.15,);
 
         }
       },
     );
   }
 }
-
-
 class MyHomePage extends StatelessWidget {
-  late List<DineInTableModel> tableData = [];
+  final List<DineInTableModel> tableData;
   final double cardWidth;
   final double cardHeight;
+
   MyHomePage({
     required this.tableData,
     required this.cardWidth,
@@ -122,9 +122,9 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Find the maximum row and column values
     int maxRow = 0;
     int maxColumn = 0;
+
     for (final table in tableData) {
       if (table.row > maxRow) {
         maxRow = table.row;
@@ -134,13 +134,11 @@ class MyHomePage extends StatelessWidget {
       }
     }
 
-    // Create a 2D list to represent the grid
     List<List<DineInTableModel?>> grid = List.generate(
       maxRow + 1,
           (_) => List<DineInTableModel?>.filled(maxColumn + 1, null),
     );
 
-    // Place the tables into their respective positions in the grid
     for (final table in tableData) {
       grid[table.row][table.column] = table;
     }
@@ -151,15 +149,16 @@ class MyHomePage extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: SizedBox(
           width: (maxColumn + 1) * cardWidth,
-          height: (maxRow + 1) * cardHeight,
           child: GridView.builder(
+            shrinkWrap: true, // Important for proper vertical scrolling
+            physics: NeverScrollableScrollPhysics(), // Disable internal scroll
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: maxColumn + 1,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
+              crossAxisSpacing: 0.0,
+              mainAxisSpacing: 0.0,
+              childAspectRatio: cardWidth / cardHeight, // Ensures correct aspect ratio
             ),
             itemCount: (maxRow + 1) * (maxColumn + 1),
-            physics: NeverScrollableScrollPhysics(), // Disable GridView's scrolling
             itemBuilder: (BuildContext context, int index) {
               final row = index ~/ (maxColumn + 1);
               final column = index % (maxColumn + 1);
@@ -168,83 +167,78 @@ class MyHomePage extends StatelessWidget {
               return table != null
                   ? GestureDetector(
                 onTap: () {
-
-
-                  if (table.tableOrdersInfo != null && table.tableOrdersInfo!.isNotEmpty && !GlobalDala.isOrderTypeEdit)
-                  {
+                  if (table.tableOrdersInfo != null &&
+                      table.tableOrdersInfo!.isNotEmpty &&
+                      !GlobalDala.isOrderTypeEdit) {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => DineInRacall(table)));
-                  }
-                  else
-                    {
-
-                      int guestNumber = 0; // Default value
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: StatefulBuilder(
-                              builder: (BuildContext context, StateSetter setState) {
-                                return Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    TextField(
-                                      keyboardType: TextInputType.number,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          guestNumber = int.tryParse(value) ?? 0;
-                                        });
-                                      },
-                                      decoration: InputDecoration(
-                                        labelText: 'Number of Guests',
-                                        errorText: guestNumber > table.seatsNumber ? 'Maximum guest allowed is: ${table.seatsNumber}' : null,
-                                      ),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                DineInRacall(table)));
+                  } else {
+                    int guestNumber = 0;
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          content: StatefulBuilder(
+                            builder: (BuildContext context,
+                                StateSetter setState) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextField(
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        guestNumber = int.tryParse(value) ?? 0;
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                      labelText: 'Number of Guests',
+                                      errorText: guestNumber > table.seatsNumber
+                                          ? 'Maximum guest allowed is: ${table.seatsNumber}'
+                                          : null,
                                     ),
-                                    SizedBox(height: 20),
-                                    TextButton(
-                                      onPressed: () {
-
-                                        Navigator.of(context).pop();
-                                        if(guestNumber <= table.seatsNumber && guestNumber > 0)
-                                        {
-
-
-                                          GlobalDala.cartPayNowDataList[Constant.tableIdMain] =table.id;
-                                          GlobalDala.cartPayNowDataList[Constant.tableNameMain] =table.name;
-                                          GlobalDala.cartPayNowDataList[Constant.guestNoMain] =guestNumber;
-                                          GlobalDala.cartPayNowDataList[Constant.tableInfoMain] =table.tableDescription;
-                                          if (!GlobalDala.isOrderTypeEdit) {
-
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => home("dineIn")));
-                                          }
-                                          else
-                                          {
-
-                                            Navigator.pop(context, "Task completed!");
-                                          }
-
-
+                                  ),
+                                  SizedBox(height: 20),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      if (guestNumber <= table.seatsNumber &&
+                                          guestNumber > 0) {
+                                        GlobalDala.cartPayNowDataList[Constant.tableIdMain] = table.id;
+                                        GlobalDala.cartPayNowDataList[Constant.tableNameMain] = table.name;
+                                        GlobalDala.cartPayNowDataList[Constant.guestNoMain] = guestNumber;
+                                        GlobalDala.cartPayNowDataList[Constant.tableInfoMain] = table.tableDescription;
+                                        if (!GlobalDala.isOrderTypeEdit) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => home("dineIn")));
+                                        } else {
+                                          Navigator.pop(context, "Task completed!");
                                         }
-                                        else
-                                          {
-                                            showSnackBarInDialog(context, "Enter valid guest number.!");
-                                          }
-
-                                      },
-                                      child: Text('Done'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      );
-                    }
-
-
+                                      } else {
+                                        showSnackBarInDialog(context, "Enter valid guest number.");
+                                      }
+                                    },
+                                    child: Text('Done'),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  }
                 },
-                child: buildTableCard(table),
+                child: SizedBox(
+                  width: cardWidth,
+                  height: cardHeight,
+                  child: buildTableCard(table),
+                ),
               )
                   : SizedBox();
             },
@@ -257,54 +251,72 @@ class MyHomePage extends StatelessWidget {
   Widget buildTableCard(DineInTableModel table) {
     Color backgroundColor = table.bgColor != null && table.bgColor!.isNotEmpty
         ? Color(int.parse(table.bgColor!))
-      /*  ? Color(int.parse(16711680))*/
         : Colors.white;
     Color fontColor = table.fontColor!.isNotEmpty
         ? Color(int.parse(table.fontColor!))
         : Colors.black;
-    return SingleChildScrollView(
-      child: Card(
-        color: backgroundColor,
-        child: SizedBox(
-          width: cardWidth - 16.0, // Adjusted width to account for padding
-          height: null, // Set height to null to allow dynamic sizing
-          child: Padding(
-            padding: const EdgeInsets.all(8.0), // Reduced padding
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min, // Ensure the column size is as small as possible
-              children: [
-                Text(
-                  '${table.name}',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
-                    color: fontColor,
+    return Card(
+      color: backgroundColor,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(   child: Text(
+              '${table.name}',
+              style: TextStyle(
+                fontSize: 9.0,
+                fontWeight: FontWeight.bold,
+                color: fontColor,
+              ),
+            ))
+         ,
+            SizedBox(height: 2.0),
+            table.tableOrdersInfo!.isEmpty ? Text('G: ${table.seatsNumber}', style: TextStyle(color: fontColor, fontSize: 9),textAlign:TextAlign.center ,):SizedBox(),
+            if (table.tableOrdersInfo != null && table.tableOrdersInfo!.isNotEmpty)
+              ...[
+                SizedBox(height: 2.0),
+               // Text('Orders:', style: TextStyle(fontWeight: FontWeight.bold, color: fontColor)),
+                Flexible(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: table.tableOrdersInfo!.length,
+                    itemBuilder: (context, index) {
+                      var order = table.tableOrdersInfo![index];
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 2.0),
+                        child:
+                        Text(
+                          '${order.userName}:[${order.guests.toString()}]:${getOrderTimeDifference('${order.onDate} ${order.onTime}')}',
+                          style: TextStyle(color: fontColor, fontSize: 10),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      );
+                    },
                   ),
                 ),
-                SizedBox(height: 4.0), // Reduced SizedBox height
-                Text('Guests: ${table.seatsNumber}', style: TextStyle(color: fontColor)),
-                if (table.tableOrdersInfo != null && table.tableOrdersInfo!.isNotEmpty)
-                  ...[
-                    SizedBox(height: 4.0), // Reduced SizedBox height
-                    Text('Orders:', style: TextStyle(fontWeight: FontWeight.bold, color: fontColor)),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        for (var order in table.tableOrdersInfo!)
-                          Text(
-                            '${order.orderNo} - ${order.userName}',
-                            style: TextStyle(color: fontColor,fontSize: 12),
-                          ),
-                      ],
-                    ),
-                  ],
               ],
-            ),
-          ),
+
+          ],
         ),
       ),
     );
   }
+  String getOrderTimeDifference(String dateTimeString) {
 
+    DateFormat format = DateFormat('dd/MM/yyyy HH:mm:ss');
+    DateTime orderDateTime = format.parse(dateTimeString);
+    Duration difference = DateTime.now().difference(orderDateTime);
+    String differenceString;
+    if (difference.inDays > 0) {
+      differenceString = '${difference.inDays} days ago';
+    } else if (difference.inHours > 0) {
+      differenceString = '${difference.inHours} hours ago';
+    } else {
+      differenceString = '${difference.inMinutes} minutes ago';
+    }
+
+    return differenceString;
+  }
 }

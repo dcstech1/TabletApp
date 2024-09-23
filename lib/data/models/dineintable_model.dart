@@ -74,23 +74,35 @@ class TableOrdersInfo {
   String? orderNo;
   String? userId;
   String? userName;
+ String? onDate;
+  String? onTime;
+  int? guests;
 
   TableOrdersInfo({
     this.orderNo,
     this.userId,
     this.userName,
+    this.onDate,
+    this.onTime,
+    this.guests,
   });
 
   factory TableOrdersInfo.fromJson(Map<String, dynamic> json) => TableOrdersInfo(
     orderNo: json["orderNo"],
     userId: json["userId"],
     userName: json["userName"],
+    onDate: json["onDate"],
+    onTime: json["onTime"],
+    guests: json["guests"],
   );
 
   Map<String, dynamic> toJson() => {
     "orderNo": orderNo,
     "userId": userId,
     "userName": userName,
+    "onDate": onDate,
+    "onTime": onTime,
+    "guests": guests,
   };
 }
 
